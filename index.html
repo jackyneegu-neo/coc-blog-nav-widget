@@ -6,6 +6,8 @@
 body { 
     margin: 0; 
     overflow: hidden; 
+    /* Required to ensure the widget is the only thing shown */
+    background: transparent !important; 
 }
 #floating-blog-nav-wrapper {
     /* CRITICAL: Positioned at the absolute top-left corner of the iframe's viewport */
@@ -15,8 +17,7 @@ body {
     
     z-index: 99999; 
     
-    /* FIX: This overrides the outer iframe's pointer-events: none; */
-    pointer-events: auto; 
+    /* pointer-events rule is removed, allowing clicks to pass directly to buttons */
     
     background-color: #f7f7f7; 
     border: 1px solid #ddd;
@@ -35,7 +36,6 @@ body {
         left: 0;
         right: auto;
         bottom: auto;
-        
         width: 100%;
         border-radius: 0;
         padding: 10px 5px;
@@ -84,10 +84,7 @@ body {
  */
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Get URL parameters from the current iframe source URL
     const params = new URLSearchParams(window.location.search);
-    
-    // Extract the Prev and Next URLs passed from the Zoho Sites Code Snippet
     const prevUrl = params.get('prev');
     const nextUrl = params.get('next');
     
@@ -97,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let isVisible = false;
 
-    // Apply Previous Link
+    // Apply Links and check for visibility
     if (prevUrl && prevUrl !== "YOUR_PREVIOUS_URL") {
         prevBtn.href = decodeURIComponent(prevUrl);
         isVisible = true;
@@ -105,7 +102,6 @@ document.addEventListener('DOMContentLoaded', function() {
         prevBtn.style.display = 'none';
     }
 
-    // Apply Next Link
     if (nextUrl && nextUrl !== "YOUR_NEXT_URL") {
         nextBtn.href = decodeURIComponent(nextUrl);
         isVisible = true;

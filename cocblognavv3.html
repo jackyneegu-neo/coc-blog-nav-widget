@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/* 1. CSS: Styling & Absolute Positioning for Cropping */
+body { 
+    margin: 0; 
+    overflow: hidden; 
+}
+#floating-blog-nav-wrapper {
+    /* CRITICAL: Positioned at the absolute top-left corner of the iframe's viewport */
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    
+    z-index: 99999; 
+    
+    background-color: #f7f7f7; 
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 8px;
+    display: flex; 
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    font-family: sans-serif;
+}
+
+/* --- Mobile Media Queries (Responsiveness) --- */
+@media (max-width: 768px) {
+    #floating-blog-nav-wrapper {
+        top: 0;
+        left: 0;
+        right: auto;
+        bottom: auto;
+        
+        width: 100%;
+        border-radius: 0;
+        padding: 10px 5px;
+        justify-content: space-around;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        border-top: 1px solid #ccc;
+    }
+    #floating-blog-nav-wrapper a {
+        flex-grow: 1;
+        padding: 12px 5px;
+        font-size: 13px;
+    }
+}
+
+#floating-blog-nav-wrapper a {
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    text-align: center;
+    min-width: 60px;
+}
+</style>
+</head>
+<body>
+
+<div id="floating-blog-nav-wrapper" style="display: none;">
+    <a href="#" id="nav-prev-btn" title="Previous Article">
+        &larr; Prev
+    </a>
+    <a href="/blog" id="nav-category-btn" title="View Blog Categories">
+        Category
+    </a>
+    <a href="#" id="nav-next-btn" title="Next Article">
+        Next &rarr;
+    </a>
+</div>
+
+<script>
+/**
+ * 2. JavaScript: Pulls Links from URL Parameters
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // Get URL parameters from the current iframe source URL
+    const params = new URLSearchParams(window.location.search);
+    
+    // Extract the Prev and Next URLs passed from the Zoho Sites Code Snippet
+    const prevUrl = params.get('prev');
+    const nextUrl = params.get('next');
+    
+    const navWrapper = document.getElementById('floating-blog-nav-wrapper');
+    const prevBtn = document.getElementById('nav-prev-btn');
+    const nextBtn = document.getElementById('nav-next-btn');
+    
+    let isVisible = false;
+
+    // Apply Previous Link
+    if (prevUrl && prevUrl !== "YOUR_PREVIOUS_URL") {
+        prevBtn.href = decodeURIComponent(prevUrl);
+        isVisible = true;
+    } else {
+        prevBtn.style.display = 'none';
+    }
+
+    // Apply Next Link
+    if (nextUrl && nextUrl !== "YOUR_NEXT_URL") {
+        nextBtn.href = decodeURIComponent(nextUrl);
+        isVisible = true;
+    } else {
+        nextBtn.style.display = 'none';
+    }
+    
+    // Only make the entire widget visible if we found at least one link
+    if (isVisible) {
+        navWrapper.style.display = 'flex';
+    }
+});
+</script>
+
+</body>
+</html>
